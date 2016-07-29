@@ -22,7 +22,7 @@ CFLAGS := -g -lz # -Wall
 INC := $(shell find $(INCDIR) -maxdepth 1 -type d -exec echo -I {}  \;)
 
 # define specific binaries to create
-APP0 := omega2ctrl
+APP0 := omega2-ctrl
 TARGET := $(BINDIR)/$(APP0)
 
 
