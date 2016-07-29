@@ -1,11 +1,12 @@
-#ifndef _OMEGA2_CTRL_H_
-#define _OMEGA2_CTRL_H_
+#ifndef _REFCLK_H_
+#define _REFCLK_H_
 
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
 #include <sys/mman.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -13,8 +14,11 @@
 
 #include <omega2_ctrl_types.h>
 
-#include <gpiomux.h>
-#include <refclk.h>
 
+int 		refclk_set						(unsigned int rate);
+int 		refclk_get						(void);
 
-#endif // _OMEGA2_CTRL_H_
+int 		refclk_mmap_open				(void);
+void 		refclk_mmap_close				(void);
+
+#endif // _REFCLK_H_
