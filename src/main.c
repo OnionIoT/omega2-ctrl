@@ -27,15 +27,15 @@ static int gpiomode_set(char *group, char *name)
 	int i;
 	int id;
 
-	for (id = 0; id < __MUX_MAX; id ++)
-		if (!strcmp(mt7688_mux[id].name, group))
+	for (id = 0; id < _O2_NUM_GPIO_MUX; id ++)
+		if (!strcmp(omega2GpioMux[id].name, group))
 			break;
 
-	if (id < __MUX_MAX) for (i = 0; i < 4; i++) {
-		if (!mt7688_mux[id].func[i] || strcmp(mt7688_mux[id].func[i], name))
+	if (id < _O2_NUM_GPIO_MUX) for (i = 0; i < 4; i++) {
+		if (!omega2GpioMux[id].func[i] || strcmp(omega2GpioMux[id].func[i], name))
 			continue;
-		__gpiomode_set(mt7688_mux[id].mask, mt7688_mux[id].shift, i);
-		fprintf(stderr, "set pinmux %s -> %s\n", mt7688_mux[id].name, name);
+		__gpiomode_set(omega2GpioMux[id].mask, omega2GpioMux[id].shift, i);
+		fprintf(stderr, "set pinmux %s -> %s\n", omega2GpioMux[id].name, name);
 		return 0;
 	}
 	fprintf(stderr, "unknown group/function combination\n");
@@ -48,23 +48,23 @@ static int gpiomode_get(void)
 	unsigned int reg2 = *(volatile uint32_t*) (gpio_mmap_reg + 0x64);
 	int id;
 
-	for (id = 0; id < __MUX_MAX; id ++) {
+	for (id = 0; id < _O2_NUM_GPIO_MUX; id ++) {
 		unsigned int val;
 		int i;
 
-		if (mt7688_mux[id].shift < 32)
-			val = (reg >> mt7688_mux[id].shift) & mt7688_mux[id].mask;
+		if (omega2GpioMux[id].shift < 32)
+			val = (reg >> omega2GpioMux[id].shift) & omega2GpioMux[id].mask;
 		else
-			val = (reg2 >> (mt7688_mux[id].shift - 32)) & mt7688_mux[id].mask;
+			val = (reg2 >> (omega2GpioMux[id].shift - 32)) & omega2GpioMux[id].mask;
 
-		fprintf(stderr, "Group %s - ", mt7688_mux[id].name);
+		fprintf(stderr, "Group %s - ", omega2GpioMux[id].name);
 		for (i = 0; i < 4; i++) {
-			if (!mt7688_mux[id].func[i])
+			if (!omega2GpioMux[id].func[i])
 				continue;
 			if (i == val)
-				fprintf(stderr, "[%s] ", mt7688_mux[id].func[i]);
+				fprintf(stderr, "[%s] ", omega2GpioMux[id].func[i]);
 			else
-				fprintf(stderr, "%s ", mt7688_mux[id].func[i]);
+				fprintf(stderr, "%s ", omega2GpioMux[id].func[i]);
 		}
 		fprintf(stderr, "\n");
 	}
