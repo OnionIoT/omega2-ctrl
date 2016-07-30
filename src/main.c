@@ -1,5 +1,37 @@
 #include <main.h>
 
+void usage (char* progname) {
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Usage: %s gpiomux get\n", progname);
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Functionality:\n");
+	fprintf(stderr, "\tList the current GPIO muxing configuration\n");
+	fprintf(stderr, "\n");
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Usage: %s gpiomux set <GPIO group> <mux setting>\n", progname);
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Functionality:\n");
+	fprintf(stderr, "\tSet the GPIO muxing for the specified GPIO signal group\n");
+	fprintf(stderr, "\n");
+
+	fprintf(stderr, "\n");
+	
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Usage: %s refclk get\n", progname);
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Functionality:\n");
+	fprintf(stderr, "\tDisplay the current refclk setting\n");
+	fprintf(stderr, "\n");
+
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Usage: %s refclk set <frequency (MHz)>\n", progname);
+	fprintf(stderr, "\n");
+	fprintf(stderr, "Functionality:\n");
+	fprintf(stderr, "\tSet the refclk to the specified frequency if possible\n");
+	fprintf(stderr, "\n");
+}
+
 int main(int argc, char **argv)
 {
 	int status	= EXIT_FAILURE;
@@ -19,8 +51,7 @@ int main(int argc, char **argv)
 				status = gpiomux_get();
 			} 
 			else {
-				fprintf(stderr, "%s set <group> <function>\n", *argv);
-				fprintf(stderr, "%s get\n", *argv);
+				usage(*argv);
 			}
 
 			gpiomux_mmap_close();		
@@ -37,12 +68,17 @@ int main(int argc, char **argv)
 				status = refclk_get();
 			} 
 			else {
-				fprintf(stderr, "%s set <group> <function>\n", *argv);
-				fprintf(stderr, "%s get\n", *argv);
+				usage(*argv);
 			}
 
 			refclk_mmap_close();		
 		}
+		else {
+			usage(*argv);
+		}
+	} 
+	else {
+		usage(*argv);
 	}
 
 	
