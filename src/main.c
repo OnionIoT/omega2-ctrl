@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
 	// read the command argument
 	if (argc >= 2) {
-		if (strcmp(argv[1], "gpiomux") == 0) {
+		if (strcmp(argv[1], "gpiomux") == 0 || strcmp(argv[1], "pinmux") == 0) {
 			if (gpiomux_mmap_open() == EXIT_FAILURE) {
 				return EXIT_FAILURE;
 			}
